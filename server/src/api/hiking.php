@@ -22,9 +22,11 @@ switch ($reqMethod) {
     // if want to have one hiking
     if (!empty($_GET['id'])) {
       $id = htmlspecialchars($_GET['id']); 
-      $hiking->get($id);
+      $res = $hiking->get($id);
+      $hiking->formatRes($res, 'No hiking found', 'Success');
     } else {
-      $hiking->get();
+      $res = $hiking->get();
+      $hiking->formatRes($res, 'No hiking found', 'Success');
     }
     break;
   case 'POST':
@@ -33,7 +35,33 @@ switch ($reqMethod) {
     if ($req === false) {
       header('HTTP/1.0 400 Required item missing');
     } else {
-      $hiking->create($req);
+      $res = $hiking->create($req);
+    }
+    break;
+  case 'DELETE': 
+    if(isset($_GET['id'])) {
+      $id = htmlspecialchars($_GET['id']);
+      $hiking->delete($id);
+    } else {
+      header('HTTP/1.0 400 Required ID is missing');
+    }
+    break;
+  case 'PATCH':
+    if(isset($_GET['id'])) {
+      $id = htmlspecialchars($_GET['id']);
+      $resHiking = $hiking->get($id);
+      if($resHiking->rowCount() !== 0) {
+        $req = clearHikingUpdate();
+        if($req === false) {
+          header('HTTP/1.0 400 Required item missing');
+        } else {
+          $hiking->update($id, $req);
+        }
+      } else {
+        header('HTTP/1.0 404 Invalid ID');
+      }
+    } else {
+      header('HTTP/1.0 400 Required ID is missing');
     }
     break;
   default:
