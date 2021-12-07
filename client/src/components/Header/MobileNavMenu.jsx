@@ -12,13 +12,13 @@ const MobileNavMenu = ({closeNav}) => {
       </div>
       <ul className='mobileMenu__list'>
         <li>
-          <Link to="/" > <LogoText className='mobileMenu__logo' /></Link>
+          <Link to="/" onClick={closeNav} > <LogoText className='mobileMenu__logo' /></Link>
         </li>
         <li>
-          <Link to="/tracks" > Explore </Link>
+          <Link to="/tracks" onClick={closeNav} > Explore </Link>
         </li>
         <li>
-          <Link to='/login' > Logout </Link>
+          <Link to='/login' onClick={closeNav} > Logout </Link>
         </li>
         <li>
           <Link to='/account' > <img src="https://images.unsplash.com/photo-1586022045315-1cdd6493045c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="hiker" className='mobileMenu__avatar' /> </Link>
