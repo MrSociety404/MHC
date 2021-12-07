@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import Button from '../Common/Button'
 
 import "./Nav.scss";
 
@@ -8,7 +7,7 @@ const Nav = () => {
     <nav className="navigation">
       <ul className='navigation__list'>
         <li className="navigation__item">
-          <Link to="/tracks" > <Button content='Explore' /> </Link>
+          <Link to="/tracks" > Explore </Link>
         </li>
         <li className="navigation__item">
           <Link to='/login' > Logout </Link>
