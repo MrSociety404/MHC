@@ -1,3 +1,4 @@
+
 .tracks {
   &__backgroundIllu {
     margin: 5rem auto;
@@ -8,7 +9,10 @@
     width: 100%;
     cursor: pointer;
     &:hover {
-      
+      animation: bounce;
+      animation-duration: 2s;
+      transition: ease-in-out;
+
     }
   }
 
