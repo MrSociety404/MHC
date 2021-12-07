@@ -1,0 +1,9 @@
+.connect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70.8px);
+  &__illu {
+    width: 300px;
+  }
+}
