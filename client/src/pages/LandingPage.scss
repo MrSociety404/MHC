@@ -1,0 +1,40 @@
+.landingPage {
+  min-height: 600px ;
+  height: calc(100vh - 1rem - 54px);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  @media (min-width: 850px) {
+    text-align: left;
+    font-size: 1.5rem;
+    & div {
+      max-width: 60%;
+      margin-right: auto;
+      margin-bottom: 6rem;
+    }
+  }
+  &__title {
+    font-size: 2.5em;
+  }
+  &__subtitle {
+    font-size: 1.65em;
+    font-weight: 700;
+  }
+  &__desc {
+    font-size: 1.2rem;
+    color: #5d5d5d ;
+    margin-block: 3rem;
+    max-width: 420px ;
+  }
+  &__btn {
+    font-size: 2rem;
+  }
+  &__illu {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+  }
+}

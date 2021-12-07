@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  max-width: 1200px;
+  margin: 1rem auto 0 auto;
+  user-select: none;
+  &__mobile {
+    display: none;
+    @media (max-width: 850px) {
+      display: block;
+    }
+  }
+  &__mobileMenu {
+    cursor: pointer;
+  }
+}

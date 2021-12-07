@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+
+/*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
+
+/*
+    Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
+    - The "symbol *" part is to solve Firefox SVG sprite bug
+ */
+ *:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+  all: unset;
+  display: revert;
+}
+
+/* Preferred box-sizing value */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove list styles (bullets/numbers) */
+ol, ul {
+  list-style: none;
+}
+
+/* For images to not be able to exceed their container */
+img {
+  max-width: 100%;
+}
+
+/* removes spacing between cells in tables */
+table {
+  border-collapse: collapse;
+}
+
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+  white-space: revert;
+}
+
+/* revert for bug in Chromium browsers
+ - fix for the content editable attribute will work properly. */
+:where([contenteditable]){
+  -webkit-user-modify: read-write;
+  overflow-wrap: break-word;
+  -webkit-line-break: after-white-space;
+  line-break: after-white-space;
+}
+
+a {
+  cursor: pointer;
+}
+
+body {
+  background-color: #F4EEEA;
+  padding: 0 1rem;
+  min-height: 600px ;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+html {
+  font-size: 16px;
+  font-family: 'Raleway', sans-serif;
+}

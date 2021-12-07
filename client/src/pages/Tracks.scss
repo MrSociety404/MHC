@@ -1,0 +1,18 @@
+
+.tracks {
+  &__backgroundIllu {
+    margin: 5rem auto;
+  }
+  &__doubleChevron {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    &:hover {
+      animation: bounce;
+      animation-duration: 2s;
+      transition: ease-in-out;
+    }
+  }
+
+}
