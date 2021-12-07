@@ -1,4 +1,5 @@
 import "./Tracks.scss";
+import Hikings from"../components/Tracks/Hikings";
 
 // SVG
 import {ReactComponent as Background} from '../assets/svg/background.svg'
@@ -9,6 +10,8 @@ const Tracks = () => {
     <main className="tracks">
       <Background className="tracks__backgroundIllu" />
       <DoubleChevron className="tracks__doubleChevron" />
+      <Hikings />
+
     </main>
   )
 }
