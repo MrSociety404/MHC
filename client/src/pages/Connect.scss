@@ -1,0 +1,31 @@
+.connect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70.8px);
+  padding-block: 3rem;
+  position: relative;
+  &__headline {
+    margin-bottom: 1.5rem;
+    margin-top: .2rem;
+  }
+  &__illu {
+    width: 380px;
+    margin-left: 6rem;
+    @media (max-width: 850px) {
+      display: none;
+    }
+  }
+  &__more {
+    margin-top: 2rem;
+  }
+  &__action {
+    font-weight: 600;
+    cursor: pointer;
+    color: #3A494C;
+    margin-left: .2rem;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

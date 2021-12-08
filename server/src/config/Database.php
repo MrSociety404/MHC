@@ -26,8 +26,6 @@ class Database {
     } catch(PDOException $err) {
       echo $err->getMessage();
     }
-
-
   }
 
   /**
