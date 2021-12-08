@@ -4,7 +4,6 @@ require_once("../models/User.php");
 require_once("../config/Database.php");
 require_once("../lib/userFunc.php");
 
-
 $_POST = json_decode(file_get_contents('php://input'), true);
 header('Content-Type: application/json; charset=utf-8');
 
