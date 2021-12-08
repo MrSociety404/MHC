@@ -21,7 +21,7 @@ switch ($reqMethod) {
   case 'GET':
     // if want to have one hiking
     if (!empty($_GET['id'])) {
-      $id = htmlspecialchars($_GET['id']); 
+      $id = htmlspecialchars($_GET['id']);
       $res = $hiking->get($id);
       $hiking->formatRes($res, 'No hiking found', 'Success');
     } else {
@@ -33,38 +33,44 @@ switch ($reqMethod) {
     $req = clearHikingPost();
     // If missing body items, send error status
     if ($req === false) {
-      header('HTTP/1.0 400 Required item missing');
+      http_response_code(400);
+      echo json_encode(['message' => 'Required item missing']);
     } else {
       $res = $hiking->create($req);
     }
     break;
-  case 'DELETE': 
-    if(isset($_GET['id'])) {
+  case 'DELETE':
+    if (isset($_GET['id'])) {
       $id = htmlspecialchars($_GET['id']);
       $hiking->delete($id);
     } else {
-      header('HTTP/1.0 400 Required ID is missing');
+      http_response_code(400);
+      echo json_encode(['message' => 'Required ID is missing']);
     }
     break;
   case 'PATCH':
-    if(isset($_GET['id'])) {
+    if (isset($_GET['id'])) {
       $id = htmlspecialchars($_GET['id']);
       $resHiking = $hiking->get($id);
-      if($resHiking->rowCount() !== 0) {
+      if ($resHiking->rowCount() !== 0) {
         $req = clearHikingUpdate();
-        if($req === false) {
-          header('HTTP/1.0 400 Required item missing');
+        if ($req === false) {
+          http_response_code(400);
+          echo json_encode(['message' => 'Required item missing']);
         } else {
           $hiking->update($id, $req);
         }
       } else {
-        header('HTTP/1.0 404 Invalid ID');
+        http_response_code(404);
+        echo json_encode(['message' => 'Invalid ID']);
       }
     } else {
-      header('HTTP/1.0 400 Required ID is missing');
+      http_response_code(404);
+      echo json_encode(['message' => 'Required ID is missing']);
     }
     break;
   default:
-    header('HTTP/1.0 405 Method Not Allowed');
+    http_response_code(405);
+    echo json_encode(['message' => 'Method not allowed']);
     break;
 }
