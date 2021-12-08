@@ -1,5 +1,4 @@
 <?php
-
 class User{
  private $conn;
 
@@ -24,7 +23,6 @@ public function get($id){
 }
 
 public function create($req){
-
     try {
         $q = 'INSERT INTO user (id, nickname, email, password, image) 
         VALUES (:id, :nickname, :email , :password, :image )';
@@ -33,7 +31,7 @@ public function create($req){
             'id'=>$req['id'],
             'nickname'=>$req['nickname'],
             'email'=>$req['email'],
-            'password'=>$req['password'],
+            'password'=>password_hash($req['password'], PASSWORD_BCRYPT),
             'image'=>$req['image']
         ]);
     $res=$this->get($req['id']);
@@ -47,11 +45,9 @@ public function create($req){
 
  public function update($req, $id){
      try {
-         $q ='UPDATE user SET nickname =:nickname, email=:email, password=:password, image=:image ';
+         $q ='UPDATE user SET password=:password, image=:image ';
          $stmt= $this->conn->prepare($q);
          $stmt->execute([
-             'nickname'=>$req['nickname'],
-             'email'=>$req['email'],
              'password'=>$req['password'],
              'image'=>$req['image']
          ]);
@@ -93,10 +89,3 @@ public function create($req){
     }
   }
 }
-
-
-
-
-
-
-?>
