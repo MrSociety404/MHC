@@ -1,4 +1,6 @@
 RewriteEngine On 
+
+RewriteCond %{REQUEST_METHOD} GET
 RewriteRule ^user/?$ user.php [NC,L]
 RewriteRule ^user/+(.*)?$ user.php?id=$1
 
