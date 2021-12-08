@@ -68,7 +68,8 @@ $user= new User($db);
         break;
      
     default:
-         header("HTTP/1.0 405 Method not allowed");
+    http_response_code(405);
+    echo json_encode(['message'=>'Method not allowed']);
          break;
  }
 
