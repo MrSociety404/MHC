@@ -38,5 +38,6 @@
   },
   "devDependencies": {
     "sass": "^1.44.0"
-  }
+  },
+  "proxy": "https://cat-fact.herokuapp.com/"
 }

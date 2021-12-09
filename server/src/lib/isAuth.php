@@ -12,7 +12,8 @@ function isAuth () {
     $tokenFull = htmlspecialchars($headers['Authorization']);
     $token = explode(' ', $tokenFull)[1];
 
-    if($jwt->isValid($token) && $jwt->check($token, SECRET)) {
+    if($jwt->isValid($token) && $jwt->check($token, SECRET) && isset($jwt->getPayload($token)['id'])) {
+      $_POST['id'] = $jwt->getPayload($token)['id'];
       return true;
     } else {
       return 'Access denied';

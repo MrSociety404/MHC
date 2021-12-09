@@ -1,7 +1,6 @@
 .input {
   display: block;
   margin-bottom: 2rem;
-  position: relative;
   &__label {
     display: block;
     margin-bottom: .8rem;
@@ -24,11 +23,5 @@
       cursor: not-allowed;
       background-color: #DEE1E1;
     }
-  }
-  &__msg {
-    position: absolute;
-    bottom: -20px;
-    left: 10px;
-    color: red;
   }
 }

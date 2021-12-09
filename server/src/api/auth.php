@@ -4,6 +4,8 @@ require_once("../models/User.php");
 require_once("../config/Database.php");
 require_once("../lib/authFunc.php");
 
+header("Access-Control-Allow-Origin: http://localhost:3000");
+
 $_POST = json_decode(file_get_contents('php://input'), true);
 header('Content-Type: application/json; charset=utf-8');
 

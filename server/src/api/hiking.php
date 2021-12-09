@@ -5,6 +5,7 @@ require_once("../lib/hikingFunc.php");
 require_once("../lib/uuid.php");
 require_once("../lib/isAuth.php");
 
+header("Access-Control-Allow-Origin: http://localhost:3000");
 
 // set php merde
 $_POST = json_decode(file_get_contents('php://input'), true);

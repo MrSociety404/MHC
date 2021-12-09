@@ -1,9 +1,10 @@
 import "./Modal.scss";
 
-const Modal = ({title, children}) => {
+const Modal = ({title, children, onSubmitEvent}) => {
 
   const handlingSubmit = (e) => {
     e.preventDefault();
+    onSubmitEvent();
   }
 
   return (

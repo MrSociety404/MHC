@@ -117,7 +117,8 @@ class User
                         [
                             'email' => $row['email'],
                             'nickname' => $row['nickname'],
-                            'image' => $row['image']
+                            'image' => $row['image'],
+                            'id' => $row['id']
                         ],
                         SECRET
                     );
