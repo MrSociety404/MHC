@@ -1,0 +1,40 @@
+.hikings{
+    h2{
+        margin-left: 15px;
+        font-size: 36px;
+        font-weight: 400;
+    }
+    .card{
+    width: 12rem;
+    border-radius: 12px;
+    box-shadow: 7px 2px 10px #C4C4C4;
+    margin: 15px;
+    .card_img_top{
+        width: 12rem;
+        height: 15rem;
+        border-radius: 5px;
+    }
+    .container{
+        height: 6rem;
+    }
+    .level{
+        font-size: 14px;
+        margin-left: 6px;
+        margin-top: 8px;
+        color: #E99B76;
+    }
+    h5{
+        font-size: 18px;
+        font-weight:550;
+        margin-left: 6px;
+        margin-top: 8px;
+    }
+    .icons{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 18px 8px 0px 5px;
+    }
+}
+}
+
