@@ -5,10 +5,6 @@ require_once("../lib/JWT.php");
 class User
 {
     private $conn;
-    private $header = [
-        "alg" => "HS256",
-        "typ" => "JWT"
-    ];
 
     public function __construct($db)
     {
@@ -113,7 +109,6 @@ class User
                 if ($token) {
                     $jwt = new JWT();
                     $token = $jwt->generate(
-                        $this->header,
                         [
                             'email' => $row['email'],
                             'nickname' => $row['nickname'],
