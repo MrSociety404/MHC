@@ -27,13 +27,10 @@ function clearUserPost(){
 function clearUserPatch(){
 
     if(
-        isset($_POST['password'])&&
-        isset($_POST['image'])
+        isset($_POST['password'])
     ){
         $res_arr=[
-            'id'=>uuid(),
-            'password'=>htmlspecialchars($_POST['password']),
-            'image'=>htmlspecialchars($_POST['image'])
+            'password'=>htmlspecialchars($_POST['password'])
         ];
 
         return $res_arr;

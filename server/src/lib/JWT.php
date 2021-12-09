@@ -1,121 +1,100 @@
 <?php
+/**
+ * JSON Web Token for PHP
+ * @author MrSociety404
+ * @version 1.0
+ */
 class JWT
 {
-    /**
-     * Génération JWT
-     * @param array $header Header du token
-     * @param array $payload Payload du Token
-     * @param string $secret Clé secrète
-     * @param int $validity Durée de validité (en secondes)
-     * @return string Token
-     */
-    public function generate(array $header, array $payload, string $secret, int $validity = 86400): string
-    {
-        if ($validity > 0) {
-            $now = new DateTime();
-            $expiration = $now->getTimestamp() + $validity;
-            $payload['iat'] = $now->getTimestamp();
-            $payload['exp'] = $expiration;
-        }
 
-        // On encode en base64
-        $base64Header = base64_encode(json_encode($header));
-        $base64Payload = base64_encode(json_encode($payload));
+  /**
+   * Generate a base 64 header string
+   * @return string base
+   */
+  private function generateHeader(): string
+  {
+    // Create token header as a JSON string
+    $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
+    // Encode Header to Base64Url String
+    return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+  }
 
-        // On "nettoie" les valeurs encodées
-        // On retire les +, / et =
-        $base64Header = str_replace(['+', '/', '='], ['-', '_', ''], $base64Header);
-        $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], $base64Payload);
+  /**
+   * Hash the payload into a string
+   * @param array $payload 
+   * @return string hashed Payload
+   */
+  private function hashPayload($payload): string
+  {
+    // Create token payload as a JSON string
+    $payloadJson = json_encode($payload);
+    // Encode Payload to Base64Url String
+    return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payloadJson));
+  }
 
-        // On génère la signature
-        $secret = base64_encode(SECRET);
+  /**
+   * Generate a signature
+   * @param string $base64Url Header
+   * @param string $base64Url Payload
+   * @param string $secret Scret key
+   * @return string signature
+   */
+  private function hashSignature($base64UrlHeader, $base64UrlPayload, $secret): string
+  {
+    // Create Signature Hash
+    $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $secret, true);
+    // Encode Signature to Base64Url String
+    return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+  }
 
-        $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $secret, true);
+  /**
+   * Generate a token
+   * @param array $payload
+   * @param string $secret key
+   * @return string JWT Token
+   */
+  public function generate(array $payload, string $secret): string
+  {
+    // Generate all the string
+    $base64UrlHeader = $this->generateHeader();
+    $base64UrlPayload = $this->hashPayload($payload);
+    $base64UrlSignature = $this->hashSignature($base64UrlHeader, $base64UrlPayload, $secret);
 
-        $base64Signature = base64_encode($signature);
+    // Combine together
+    return $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+  }
 
-        $signature = str_replace(['+', '/', '='], ['-', '_', ''], $base64Signature);
+  /**
+   * Decode a givent token to extract the payload
+   * @param string $Token to decode
+   * @return array $Payload decoded
+   */
+  public function decodePayload($token): array
+  {
+    // Split the string
+    $hashToken = explode('.', $token)[1];
 
-        // On crée le token
-        $jwt = $base64Header . '.' . $base64Payload . '.' . $signature;
+    // Decode payload
+    $payload = json_decode(base64_decode($hashToken), true);
 
-        return $jwt;
-    }
+    return $payload;
+  }
 
-    /**
-     * Vérification du token
-     * @param string $token Token à vérifier
-     * @param string $secret Clé secrète
-     * @return bool Vérifié ou non
-     */
-    public function check(string $token, string $secret): bool
-    {
-        // On récupère le header et le payload
-        $header = $this->getHeader($token);
-        $payload = $this->getPayload($token);
+  /**
+   * Verify if the token is valid
+   * @param string $Token as a string
+   * @param string $Scret key as a string
+   * @return boolean valid or not
+   */
+  public function verify($token, $secret): bool
+  {
+    // Decode the payload
+    $payload = $this->decodePayload($token);
 
-        // On génère un token de vérification
-        $verifToken = $this->generate($header, $payload, $secret, 0);
+    // Generate a new token
+    $verifToken = $this->generate($payload, $secret);
 
-        return $token === $verifToken;
-    }
-
-    /**
-     * Récupère le header
-     * @param string $token Token
-     * @return array Header
-     */
-    public function getHeader(string $token)
-    {
-        // Démontage token
-        $array = explode('.', $token);
-
-        // On décode le header
-        $header = json_decode(base64_decode($array[0]), true);
-
-        return $header;
-    }
-
-    /**
-     * Retourne le payload
-     * @param string $token Token
-     * @return array Payload
-     */
-    public function getPayload(string $token)
-    {
-        // Démontage token
-        $array = explode('.', $token);
-
-        // On décode le payload
-        $payload = json_decode(base64_decode($array[1]), true);
-
-        return $payload;
-    }
-
-    /**
-     * Vérification de l'expiration
-     * @param string $token Token à vérifier
-     * @return bool Vérifié ou non
-     */
-    public function isExpired(string $token): bool
-    {
-        $payload = $this->getPayload($token);
-
-        $now = new DateTime();
-
-        return $payload['exp'] < $now->getTimestamp();
-    }
-
-    /**
-     * Vérification de la validité du token
-     * @param string $token Token à vérifier
-     * @return bool Vérifié ou non
-     */
-    public function isValid(string $token): bool
-    {
-        return preg_match(
-            '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',
-            $token
-        ) === 1;
-    }
+    // Verify the token
+    return $verifToken === $token;
+  }
 }

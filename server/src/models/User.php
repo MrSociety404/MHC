@@ -5,10 +5,6 @@ require_once("../lib/JWT.php");
 class User
 {
     private $conn;
-    private $header = [
-        "alg" => "HS256",
-        "typ" => "JWT"
-    ];
 
     public function __construct($db)
     {
@@ -55,11 +51,11 @@ class User
     public function update($req, $id)
     {
         try {
-            $q = 'UPDATE user SET password=:password, image=:image ';
+            $q = 'UPDATE user SET password=:password WHERE id = :id';
             $stmt = $this->conn->prepare($q);
             $stmt->execute([
-                'password' => $req['password'],
-                'image' => $req['image']
+                'password' => password_hash($req['password'], PASSWORD_BCRYPT),
+                'id' => $id
             ]);
             $res = $this->get($id);
             $this->formatRes($res, 'Error', 'Updated with success !');
@@ -113,11 +109,11 @@ class User
                 if ($token) {
                     $jwt = new JWT();
                     $token = $jwt->generate(
-                        $this->header,
                         [
                             'email' => $row['email'],
                             'nickname' => $row['nickname'],
-                            'image' => $row['image']
+                            'image' => $row['image'],
+                            'id' => $row['id']
                         ],
                         SECRET
                     );

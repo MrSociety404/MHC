@@ -1,21 +1,58 @@
-import "./Account.scss";
+import { useContext, useState } from "react";
+import { UserContext } from "../context";
+import { Link } from "react-router-dom";
 
+// Assets
+import "./Account.scss";
 import { ReactComponent as AccountIllu } from "../assets/svg/account.svg";
 import Modal from "../components/Modal/Modal";
 import Input from "../components/Modal/Input";
 import Button from "../components/Common/Button";
-import { Link } from "react-router-dom";
 
 const Account = () => {
+  const [state, setState] = useContext(UserContext);
+
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordConfInput, setPasswordConfInput] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  const onSubmitHandling = async () => {
+    if (passwordInput && passwordConfInput) {
+      if (passwordInput === passwordConfInput) {
+        const res = await fetch(`http://localhost:80/api/user/${state.data.id}`, {
+          mode: "cors",
+          method: "PATCH",
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            password: passwordConfInput
+          })
+        });
+        setErrMsg("");
+      } else {
+        setErrMsg("Password must be the same");
+      }
+    } else {
+      setErrMsg("Required fields are empty");
+    }
+  };
+
   return (
     <main className="account">
-      <Modal title="Profile">
-        <img src="https://images.unsplash.com/photo-1586022045315-1cdd6493045c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="avatar" className="account__avatar" />
+      <Modal title="Profile" onSubmitEvent={onSubmitHandling}>
+        <img src={state.data.image} alt="avatar" className="account__avatar" />
         <Input
           type="text"
           label="nickname"
           labelText="Nickname"
+          disabled={true}
           placeholder="Your nickname here"
+          value={state.data.nickname}
         />
         <Input
           type="email"
@@ -23,19 +60,27 @@ const Account = () => {
           labelText="Email"
           placeholder="Your email here"
           disabled={true}
+          value={state.data.email}
         />
         <Input
           type="password"
           label="password"
           labelText="Password"
           placeholder="Your password here"
+          value={passwordInput}
+          setValue={setPasswordInput}
+          error={errMsg ? true : false}
         />
         <Input
           type="password"
           label="passwordConfirm"
           labelText="Password Confirmation"
           placeholder="Confirm your password here"
+          value={passwordConfInput}
+          setValue={setPasswordConfInput}
+          error={errMsg ? true : false}
         />
+        <p className="connect__errMsg">{errMsg}</p>
         <Button content="Update" />
         <p className="connect__more">
           Change your mind?
@@ -44,7 +89,7 @@ const Account = () => {
           </Link>{" "}
         </p>
       </Modal>
-      <AccountIllu className='account__illu' />
+      <AccountIllu className="account__illu" />
     </main>
   );
 };
