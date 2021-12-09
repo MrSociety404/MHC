@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../context";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as LogoText } from "../../assets/svg/LogoText.svg";
 import { ReactComponent as MenuIcon } from "../../assets/svg/menu.svg";

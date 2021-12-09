@@ -15,9 +15,9 @@ const UserProvider = ({ children }) => {
     const res = await fetch("http://localhost:80/api/me", {
       mode: "cors",
       headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-        'Accept': "application/json",
+        'Authorization': token,
+        'Content-Type': "application/json",
+        Accept: "application/json",
       },
     });
     const response = await res.json();

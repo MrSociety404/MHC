@@ -55,11 +55,11 @@ class User
     public function update($req, $id)
     {
         try {
-            $q = 'UPDATE user SET password=:password, image=:image ';
+            $q = 'UPDATE user SET password=:password WHERE id = :id';
             $stmt = $this->conn->prepare($q);
             $stmt->execute([
-                'password' => $req['password'],
-                'image' => $req['image']
+                'password' => password_hash($req['password'], PASSWORD_BCRYPT),
+                'id' => $id
             ]);
             $res = $this->get($id);
             $this->formatRes($res, 'Error', 'Updated with success !');

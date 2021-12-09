@@ -117,7 +117,7 @@ const Register = () => {
           error={errMsg === "Confirm your password" ? true : false}
         />
         <p className="connect__errMsg">{errMsg}</p>
-        <Button content="Login" />
+        <Button content="Signup" />
         <p className="connect__more">
           Already an Account?
           <Link to="/login" className="connect__action">

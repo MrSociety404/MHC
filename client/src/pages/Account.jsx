@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context";
 import { Link } from "react-router-dom";
 
@@ -10,12 +10,41 @@ import Input from "../components/Modal/Input";
 import Button from "../components/Common/Button";
 
 const Account = () => {
-
   const [state, setState] = useContext(UserContext);
+
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordConfInput, setPasswordConfInput] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  const onSubmitHandling = async () => {
+    if (passwordInput && passwordConfInput) {
+      if (passwordInput === passwordConfInput) {
+        const res = await fetch(`http://localhost:80/api/user/${state.data.id}`, {
+          mode: "cors",
+          method: "PATCH",
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            password: passwordConfInput
+          })
+        });
+        setErrMsg("");
+      } else {
+        setErrMsg("Password must be the same");
+      }
+    } else {
+      setErrMsg("Required fields are empty");
+    }
+  };
 
   return (
     <main className="account">
-      <Modal title="Profile">
+      <Modal title="Profile" onSubmitEvent={onSubmitHandling}>
         <img src={state.data.image} alt="avatar" className="account__avatar" />
         <Input
           type="text"
@@ -38,13 +67,20 @@ const Account = () => {
           label="password"
           labelText="Password"
           placeholder="Your password here"
+          value={passwordInput}
+          setValue={setPasswordInput}
+          error={errMsg ? true : false}
         />
         <Input
           type="password"
           label="passwordConfirm"
           labelText="Password Confirmation"
           placeholder="Confirm your password here"
+          value={passwordConfInput}
+          setValue={setPasswordConfInput}
+          error={errMsg ? true : false}
         />
+        <p className="connect__errMsg">{errMsg}</p>
         <Button content="Update" />
         <p className="connect__more">
           Change your mind?
@@ -53,7 +89,7 @@ const Account = () => {
           </Link>{" "}
         </p>
       </Modal>
-      <AccountIllu className='account__illu' />
+      <AccountIllu className="account__illu" />
     </main>
   );
 };
