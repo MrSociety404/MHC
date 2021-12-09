@@ -1,6 +1,11 @@
 RewriteEngine On 
+
 RewriteRule ^user/?$ user.php [NC,L]
 RewriteRule ^user/+(.*)?$ user.php?id=$1
 
 RewriteRule ^hiking/?$ hiking.php [NC,L]
 RewriteRule ^hiking/+(.*)?$ hiking.php?id=$1
+
+RewriteRule ^auth/?$ auth.php [NC,L]
+
+RewriteRule ^me/?$ me.php [NC,L]

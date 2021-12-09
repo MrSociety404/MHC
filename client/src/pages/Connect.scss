@@ -19,6 +19,12 @@
   &__more {
     margin-top: 2rem;
   }
+  &__errMsg {
+    color: red;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: -.5rem;
+  }
   &__action {
     font-weight: 600;
     cursor: pointer;

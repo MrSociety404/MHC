@@ -2,6 +2,8 @@
 
 require_once ("config.php");
 
+header("Access-Control-Allow-Origin: http://localhost:3000");
+
 /**
  * Handling Database 
  */
@@ -26,8 +28,6 @@ class Database {
     } catch(PDOException $err) {
       echo $err->getMessage();
     }
-
-
   }
 
   /**

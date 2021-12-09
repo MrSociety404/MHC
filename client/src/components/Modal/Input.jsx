@@ -5,9 +5,10 @@ const Input = ({
   labelText,
   type,
   placeholder,
-  error,
-  errMsg,
+  error = false,
   disabled,
+  value,
+  setValue,
 }) => {
   return (
     <div className="input">
@@ -23,8 +24,9 @@ const Input = ({
           disabled ? "disabled" : ""
         }`}
         disabled={disabled}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
-      <p className="input__msg"> {errMsg} </p>
     </div>
   );
 };
