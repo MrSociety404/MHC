@@ -1,0 +1,25 @@
+.loading {
+  &__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: auto;
+  }
+  &__frame {
+    fill: #DEE1E1;
+    animation: animeFrame 2s ease infinite;
+  }
+  @keyframes animeFrame {
+    0% {
+      fill: #DEE1E1;
+    }
+    50% {
+      fill: #3A494C;
+    }
+    100% {
+      fill: #DEE1E1;
+    }
+  }
+}
