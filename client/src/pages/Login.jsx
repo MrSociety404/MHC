@@ -15,7 +15,7 @@ const Connect = () => {
   const [passwordInput, setPasswordInput] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const [state, setState] = useContext(UserContext);
+  const [, setState] = useContext(UserContext);
 
   const navigate = useNavigate();
 
