@@ -1,0 +1,15 @@
+.manage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70.8px);
+  padding-block: 3rem;
+  position: relative;
+  &__illu {
+    width: 500px;
+    margin-left: 6rem;
+    @media (max-width: 850px) {
+      display: none;
+    }
+  }
+}

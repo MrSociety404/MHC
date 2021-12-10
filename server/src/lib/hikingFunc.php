@@ -9,7 +9,7 @@ function clearHikingPost()
     isset($_POST['name']) &&
     isset($_POST['level']) &&
     isset($_POST['description']) &&
-    isset($_POST['id_user'])
+    isset($_POST['id'])
   ) {
     $_POST['distance'] = isset($_POST['distance']) ? $_POST['distance'] : null;
     $_POST['duration'] = isset($_POST['duration']) ? $_POST['duration'] : null;
@@ -24,7 +24,7 @@ function clearHikingPost()
       "elevation_gain" => intval(htmlspecialchars($_POST['elevation_gain'])),
       "description" => htmlspecialchars($_POST['description']),
       "image" => htmlspecialchars($_POST['image']),
-      "id_user" => htmlspecialchars($_POST['id_user'])
+      "id_user" => htmlspecialchars($_POST['id'])
     ];
     return $arr;
   } else {

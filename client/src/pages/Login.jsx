@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import {UserContext} from '../context'
+import { UserContext } from "../context";
 import { Link, useNavigate } from "react-router-dom";
 
 // Assets
@@ -8,6 +8,7 @@ import { ReactComponent as ConnectIllu } from "../assets/svg/loginIllu.svg";
 import Modal from "../components/Modal/Modal";
 import Input from "../components/Modal/Input";
 import Button from "../components/Common/Button";
+import axios from "axios";
 
 const Connect = () => {
   const [emailInput, setEmailInput] = useState("");
@@ -24,15 +25,11 @@ const Connect = () => {
     } else if (!passwordInput) {
       setErrMsg("Password is missing");
     } else {
-      const res = await fetch("http://localhost:80/api/auth", {
-        mode: "cors",
-        method: "POST",
-        body: JSON.stringify({
-          email: emailInput,
-          password: passwordInput,
-        }),
+      const {data: response} = await axios.post("http://localhost:80/api/auth", {
+        email: emailInput,
+        password: passwordInput,
       });
-      const response = await res.json();
+      console.log(response);
       if (response.message !== "Authentificated User !") {
         setErrMsg(response.message);
         setPasswordInput("");
@@ -44,8 +41,8 @@ const Connect = () => {
           nickname: response.data[0].nickname,
           image: response.data[0].image,
           admin: response.data[0].admin,
-        }
-        setState({data: user , loading: false, error: null})
+        };
+        setState({ data: user, loading: false, error: null });
         navigate("/");
       }
     }
