@@ -10,6 +10,7 @@ import Tracks from "./pages/Tracks";
 import Register from "./pages/Register";
 import Account from "./pages/Account";
 import {ProtectedRoute} from "./routes/ProtectedRoute";
+import View from "./pages/View";
 
 const App = () => {
   return (
@@ -18,6 +19,10 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+
+<Route path="/View" element={<View/>}/>
+
 
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/" element={<LandingPage />} />
