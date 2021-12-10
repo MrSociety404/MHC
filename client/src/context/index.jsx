@@ -16,12 +16,7 @@ const UserProvider = ({ children }) => {
   }
 
   const fetchUser = async () => {
-    const res = await fetch("http://localhost:80/api/me", {
-      headers: {
-        'Authorization': token,
-      },
-    });
-    const response = await res.json();
+    const {data: response} = await axios.get('http://localhost:80/api/me')
     if (response.data) {
       setUser({
         data: {
