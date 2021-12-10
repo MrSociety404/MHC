@@ -29,7 +29,6 @@ const Connect = () => {
         email: emailInput,
         password: passwordInput,
       });
-      console.log(response);
       if (response.message !== "Authentificated User !") {
         setErrMsg(response.message);
         setPasswordInput("");
