@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const UserContext = createContext();
 
@@ -10,6 +11,9 @@ const UserProvider = ({ children }) => {
   });
 
   const token = localStorage.getItem("token");
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = token;
+  }
 
   const fetchUser = async () => {
     const res = await fetch("http://localhost:80/api/me", {

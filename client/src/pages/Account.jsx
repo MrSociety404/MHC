@@ -8,31 +8,21 @@ import { ReactComponent as AccountIllu } from "../assets/svg/account.svg";
 import Modal from "../components/Modal/Modal";
 import Input from "../components/Modal/Input";
 import Button from "../components/Common/Button";
+import axios from "axios";
 
 const Account = () => {
-  const [state, setState] = useContext(UserContext);
+  const [state] = useContext(UserContext);
 
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordConfInput, setPasswordConfInput] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const token = localStorage.getItem("token");
-
   const onSubmitHandling = async () => {
     if (passwordInput && passwordConfInput) {
       if (passwordInput === passwordConfInput) {
-        const res = await fetch(`http://localhost:80/api/user/${state.data.id}`, {
-          mode: "cors",
-          method: "PATCH",
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            password: passwordConfInput
-          })
-        });
+        await axios.patch(`http://localhost:80/api/user/${state.data.id}`, {
+          password: passwordConfInput
+        })
         setErrMsg("");
       } else {
         setErrMsg("Password must be the same");

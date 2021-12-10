@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Account from "./pages/Account";
 import {ProtectedRoute} from "./routes/ProtectedRoute";
 import View from "./pages/View";
+import Manage from "./pages/Manage";
 
 const App = () => {
   return (
@@ -20,10 +21,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-
-<Route path="/View" element={<View/>}/>
-
-
+        <Route path="/View" element={<View/>}/>
+          
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/" element={<LandingPage />} />
         </Route>
@@ -34,6 +33,10 @@ const App = () => {
 
         <Route path="/account" element={<ProtectedRoute />}>
           <Route path="/account" element={<Account />} />
+        </Route>
+
+        <Route path="/manage" element={<ProtectedRoute />}>
+          <Route path="/manage" element={<Manage />} />
         </Route>
 
         <Route path="*" element={<LandingPage />} />
