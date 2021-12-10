@@ -1,7 +1,27 @@
 
 .tracks {
+  &__head {
+    position: relative;
+  }
+  &__title {
+    position: fixed;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 30%;
+    color: #E89A76;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: .05rem;
+    z-index: 2;
+    &.hidden {
+      visibility: hidden;
+    }
+  }
   &__backgroundIllu {
     margin: 5rem auto;
+    z-index: 10;
+    position: relative;
   }
   &__doubleChevron {
     margin: 0 auto;

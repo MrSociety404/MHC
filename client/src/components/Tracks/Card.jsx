@@ -1,39 +1,64 @@
 import { ReactComponent as Chronometer } from "../../assets/svg/jam_chronometer.svg";
-import {ReactComponent as Level } from "../../assets/svg/level.svg";
-import {ReactComponent as Distance } from "../../assets/svg/distance.svg";
-import { Link } from "react-router-dom";
+import { ReactComponent as Level } from "../../assets/svg/level.svg";
+import { ReactComponent as Distance } from "../../assets/svg/distance.svg";
+import { useNavigate } from "react-router-dom";
 
 import "./Hikings.scss";
+import { useEffect, useState } from "react";
 
-const Card=()=> {
+const Card = ({ hiking }) => {
+  const navigate = useNavigate();
 
-         
-    return(
-        <div className="hikings">
-            <Link to="/View">
-        <h2>ALL THE HIKINGS</h2>
-            </Link>
-            <div className="card">
-            <img className="card_img_top" alt="hike" src="https://images.unsplash.com/photo-1501554728187-ce583db33af7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"></img>
-            <div className="container">
-            <p className="level">Très difficile</p>
-            <h5>Vallée de la mort</h5>
-            <div className="icons">
-            <Chronometer />
-            <p>2h15</p>
-            <Level />
-            <p>78m</p>
-            <Distance />
-            <p>6km</p>
-            </div>
+  const [duration, setDuration] = useState(parseInt(hiking.duration));
+  const [level, setLevel] = useState(parseInt(hiking.level))
 
-            </div>
+  const showDetails = () => {
+    navigate(`/view/${hiking.id}`);
+  };
 
+  useEffect(() => {
+    if (duration < 60) {
+      setDuration(`${duration}min`);
+    } else {
+      const hours = Math.floor(duration / 60);
+      let minutes = duration % 60;
+      minutes = minutes < 10 ? `0${minutes}` : minutes
+      setDuration(`${hours}h${minutes}`);
+    }
+
+    switch (level) {
+      case 1:
+        setLevel('Medium')
+        break;
+      case 2:
+        setLevel('Hard')
+        break;
+      case 3:
+        setLevel('Hardcore')
+        break;
+      default:
+        setLevel('Easy')
+        break;
+    }
+  }, [])
+
+  return (
+    <article onClick={showDetails} className="card">
+      <img className="card_img_top" alt={hiking.name} src={hiking.image}></img>
+      <div className="card__container">
+        <p className="card__level">{level}</p>
+        <h5 className="card__name"> {hiking.name} </h5>
+        <div className="card__icons">
+          <Chronometer />
+          <p>{duration}</p>
+          <Level />
+          <p>{hiking.elevation_gain} m</p>
+          <Distance />
+          <p>{hiking.distance} km</p>
         </div>
-        </div>
-    )
-
-
-}
+      </div>
+    </article>
+  );
+};
 
 export default Card;
