@@ -12,39 +12,31 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "../components/Common/Loading";
 import CardDetails from "../components/Tracks/CardDetails";
-
+import UserDetails from "../components/Tracks/UserDetails";
 
 const View = () => {
-
-
   const [hiking, setHiking] = useState();
 
-
   const { id } = useParams();
-  const navigate= useNavigate();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    fetchHikingDetails(id);
+  }, []);
+  
   const fetchHikingDetails = async (id) => {
     const response = await axios.get("http://localhost:80/api/hiking/" + id);
     if (response.status === 200) {
       setHiking(response.data.data[0]);
-    
     }
   };
 
-
-
-  useEffect(() => {
-    fetchHikingDetails(id);
-  }, []);
-
-const handleDelete = async()=>{
-  const response = await axios.delete("http://localhost:80/api/hiking/" + id);
-  if (response.status === 200) {
-    navigate('/tracks')
-  
-  }
-
-}
-
+  const handleDelete = async () => {
+    const response = await axios.delete("http://localhost:80/api/hiking/" + id);
+    if (response.status === 200) {
+      navigate("/tracks");
+    }
+  };
 
   return (
     <>
@@ -52,12 +44,13 @@ const handleDelete = async()=>{
         <div className="container">
           <img className="view_img" alt="hiker" src={hiking.image} />
           <h1 className="view_title">{hiking.name}</h1>
-        <CardDetails hiking={hiking}/>
+          <UserDetails hiking={hiking} />
+          <CardDetails hiking={hiking} />
           <div className="description">
             <h3 className="description_title">Description</h3>
             <div className="description_icons">
               <Link to={`/manage/${hiking.id}`}>
-              <Edit />
+                <Edit />
               </Link>
               <Delete onClick={handleDelete} />
             </div>
