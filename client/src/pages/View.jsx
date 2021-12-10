@@ -1,8 +1,5 @@
 //Svg
-import { ReactComponent as Difficulty } from "../assets/svg/difficulty.svg";
-import { ReactComponent as Chronometer } from "../assets/svg/jam_chronometer.svg";
-import { ReactComponent as Level } from "../assets/svg/level.svg";
-import { ReactComponent as Distance } from "../assets/svg/distance.svg";
+
 import { ReactComponent as Edit } from "../assets/svg/edit.svg";
 import { ReactComponent as Delete } from "../assets/svg/delete.svg";
 
@@ -10,69 +7,68 @@ import { ReactComponent as Delete } from "../assets/svg/delete.svg";
 import "./View.scss";
 
 import Button from "../components/Common/Button";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Loading from "../components/Common/Loading";
+import CardDetails from "../components/Tracks/CardDetails";
+
 
 const View = () => {
+
+
+  const [hiking, setHiking] = useState();
+
+
+  const { id } = useParams();
+  const navigate= useNavigate();
+  const fetchHikingDetails = async (id) => {
+    const response = await axios.get("http://localhost:80/api/hiking/" + id);
+    if (response.status === 200) {
+      setHiking(response.data.data[0]);
+    
+    }
+  };
+
+
+
+  useEffect(() => {
+    fetchHikingDetails(id);
+  }, []);
+
+const handleDelete = async()=>{
+  const response = await axios.delete("http://localhost:80/api/hiking/" + id);
+  if (response.status === 200) {
+    navigate('/tracks')
+  
+  }
+
+}
+
+
   return (
-    <div className="container">
-      <img
-        className="view_img"
-        alt="hiker"
-        src="https://images.unsplash.com/photo-1458442310124-dde6edb43d10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-      />
-      <h1 className="view_title">Promenade de Petit Modave</h1>
-      <div className="card">
-        <h2 className="card_title">Details</h2>
-        <div className="card_icons">
-          <div className="card_details">
-            <p>
-              <Chronometer className="card_details_icons" />
-              Duration
-            </p>
-            <p>1h25</p>
+    <>
+      {hiking ? (
+        <div className="container">
+          <img className="view_img" alt="hiker" src={hiking.image} />
+          <h1 className="view_title">{hiking.name}</h1>
+        <CardDetails hiking={hiking}/>
+          <div className="description">
+            <h3 className="description_title">Description</h3>
+            <div className="description_icons">
+              <Link to={`/manage/${hiking.id}`}>
+              <Edit />
+              </Link>
+              <Delete onClick={handleDelete} />
+            </div>
           </div>
-          <div className="card_details">
-            <p>
-              <Difficulty className="card_details_icons" />
-              Difficulty
-            </p>
-            <p>Easy</p>
-          </div>
+          <p className="card_p">{hiking.description}</p>
+          <Button content="See Other" />
         </div>
-        <div className="card_icons">
-          <div className="card_details">
-            <p>
-              <Level className="card_details_icons" />
-              Level
-            </p>
-            <p>105m</p>
-          </div>
-          <div className="card_details">
-            <p>
-              <Distance className="card_details_icons" />
-              Distance
-            </p>
-            <p>25km</p>
-          </div>
-        </div>
-      </div>
-      <div className="description">
-        <h3 className="description_title">Description</h3>
-        <div className="description_icons">
-          <Edit />
-          <Delete />
-        </div>
-      </div>
-      <p className="card_p">
-        Au départ du Château de Modave, cette promenade permet de découvrir la
-        partie Sud de la réserve naturelle de Modave ainsi que la vallée du
-        Hoyoux. Vous découvrirez également le hameau de Tibiémont, le gué du
-        Val, le site de l'ancien château de Survillers et son très beau point de
-        vue. Un beau sentier forestier (la drève boisée) vous ramènera doucement
-        vers le château. Cette balade est reconnue par le Commissariat général
-        au Tourisme de Wallonie (Belgique)
-      </p>
-      <Button content="See Other" />
-    </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 };
 
