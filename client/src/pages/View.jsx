@@ -19,22 +19,25 @@ const View = () => {
       <h1>Promenade de Petit Modave</h1>
       <div className="card">
         <h2>Details</h2>
-        
-          <Chronometer/>
-          <p>Duration</p>
-          <Level/>
-          <p>Elevation Gain</p>
-          <Distance/>
-          <p>Distance</p>
-          <Difficulty/>
-          <p>Difficulty</p>
+        <div className="duration">
+          <Chronometer/><p>Duration</p>
+        </div>
+          <div className="level">
+            <Level/> <p>Elevation Gain</p>
+          </div>
+          <div className="distance">
+            <Distance/>  <p>Distance</p>
+          </div>
+          <div className="difficulty">
+            <Difficulty/> <p>Difficulty</p>
+          </div>
       </div>
       <div className="description">
-        <h3>Description</h3>
-        <Edit/>
-        <Delete/>
+        <div className="description_title">
+        <h3>Description</h3><Edit/><Delete/>
+        </div>
         <p>Au départ du Château de Modave, cette promenade permet de découvrir la partie Sud de la réserve naturelle de Modave ainsi que la vallée du Hoyoux. Vous découvrirez également le hameau de Tibiémont, le gué du Val, le site de l'ancien château de Survillers et son très beau point de vue. Un beau sentier forestier (la drève boisée) vous ramènera doucement vers le château. Cette balade est reconnue par le Commissariat général au Tourisme de Wallonie (Belgique)</p>
-      <Button/>
+      <Button content="See Other"/>
       </div>
     </div>
   )
