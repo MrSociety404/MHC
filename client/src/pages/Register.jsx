@@ -8,6 +8,7 @@ import { ReactComponent as ConnectIllu } from "../assets/svg/loginIllu.svg";
 import Modal from "../components/Modal/Modal";
 import Input from "../components/Modal/Input";
 import Button from "../components/Common/Button";
+import axios from "axios";
 
 const Register = () => {
   const [emailInput, setEmailInput] = useState("");
@@ -32,18 +33,13 @@ const Register = () => {
       setErrMsg("Confirm your password");
     } else {
       if(passwordConfInput === passwordInput) {
-        const res = await fetch("http://localhost:80/api/user", {
-          mode: "cors",
-          method: "POST",
-          body: JSON.stringify({
-            email: emailInput,
+        const {data: response} = await axios.post('http://localhost:80/api/user', {
+          email: emailInput,
             password: passwordInput,
             image: imageInput,
             passwordInput: passwordInput,
             nickname: nicknameInput
-          }),
-        });
-        const response = await res.json();
+        })
         if (response.message !== "User created !") {
           setErrMsg(response.message);
           setPasswordInput("");
