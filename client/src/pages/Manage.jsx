@@ -5,9 +5,9 @@ import axios from 'axios'
 
 import Modal from "../components/Modal/Modal";
 import Input from "../components/Modal/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Common/Button";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Manage = () => {
   const [hikingName, setHikingName] = useState("");
@@ -18,6 +18,15 @@ const Manage = () => {
   const [level, setLevel] = useState(0);
   const [description, setDescription] = useState("");
   const [errMsg, setErrMsg] = useState("")
+
+  const {id} = useParams();
+
+  
+  useEffect(() => {
+    if (id) {
+      fetchHiking(id)
+    } 
+  }, [id])
 
   const onSubmitHandling = () => {
     if(!hikingName) {
@@ -31,7 +40,13 @@ const Manage = () => {
 
       const durationArr = duration.split(':');
       const totalDur = (parseInt(durationArr[0])*60) + parseInt(durationArr[1]);
-      if(addHiking(totalDur)) {
+      let response = false
+      if (id) {
+        response = edithiking(totalDur, id)
+      } else {
+        response = addHiking(totalDur)
+      }
+      if (response) {
         setHikingName('')
         setDistance(0)
         setDuration('')
@@ -56,10 +71,41 @@ const Manage = () => {
     return response.status === 200 
   }
 
+  const edithiking = async (totalDur, id) => {
+    const response = await axios.patch('http://localhost:80/api/hiking/'+id, {
+      name: hikingName,
+      level,
+      distance,
+      duration: totalDur,
+      description,
+      elevation_gain: elevation,
+      image
+    })
+    return response.status === 200 
+  }
+
+  const fetchHiking = async (id) => {
+    const response = await axios.get('http://localhost:80/api/hiking/'+id)
+    if (response.status === 200) {
+      const {data: hiking} = response
+    
+      const hours = Math.floor(hiking.data[0].duration/60);
+      const minutes = hiking.data[0].duration % 60
+      const duration = `${hours < 10 ? '0'+hours : hours}:${minutes < 10 ? '0'+minutes : minutes}`
+
+      setHikingName(hiking.data[0].name)
+      setDistance(hiking.data[0].distance)
+      setDuration(duration)
+      setElevation(hiking.data[0].elevation_gain)
+      setImage(hiking.data[0].image)
+      setLevel(hiking.data[0].level)
+      setDescription(hiking.data[0].description)
+    }
+  }
 
   return (
     <main className="manage">
-      <Modal title="New Hiking" onSubmitEvent={onSubmitHandling}>
+      <Modal title={id ? "Edit hiking": "New hiking"} onSubmitEvent={onSubmitHandling}>
         <p className="connect__headline">
           Did you take a hike that is not on our site? good choice, add it here!
         </p>
@@ -140,12 +186,12 @@ const Manage = () => {
           ></textarea>
         </div>
         <p className="connect__errMsg">{errMsg}</p>
-        <Button content="Add" />
+        <Button content={id ? "Edit" : "add"} />
         <p className="connect__more">
           Change your mind ?
           <Link to="/" className="connect__action">
           Cancel here
-          </Link>{" "}
+          </Link>
         </p>
       </Modal>
       <ManageIllu className='manage__illu' />

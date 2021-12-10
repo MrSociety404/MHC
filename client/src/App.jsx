@@ -37,6 +37,10 @@ const App = () => {
           <Route path="/view/:id" element={<View/>}/>
         </Route>
 
+        <Route path="/manage/:id" element={<ProtectedRoute/>}>
+          <Route path="/manage/:id" element={<Manage/>}/>
+        </Route>
+
         <Route path="/manage" element={<ProtectedRoute />}>
           <Route path="/manage" element={<Manage />} />
         </Route>
