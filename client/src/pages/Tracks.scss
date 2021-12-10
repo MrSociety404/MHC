@@ -1,7 +1,17 @@
 
 .tracks {
   &__head {
+    margin: 5rem 0;
     position: relative;
+    background-image: url("../assets/svg/background.svg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    height: 600px;
+    @media (max-width: 900px) {
+      background-size: cover;
+      height: 400px;
+    }
   }
   &__title {
     position: fixed;
@@ -13,7 +23,7 @@
     font-size: 4rem;
     font-weight: 700;
     letter-spacing: .05rem;
-    z-index: 2;
+    z-index: -1;
     &.hidden {
       visibility: hidden;
     }
@@ -21,11 +31,17 @@
       font-size: 3rem;
       top: 20%;
     }
+    @media (max-width: 450px) {
+      font-size: 2.5rem;
+      top: 20%;
+    }
   }
   &__backgroundIllu {
     margin: 5rem auto;
-    z-index: 10;
-    position: relative;
+    width: 700px;
+    overflow-x: hidden;
+    transform: translateX(-25%);
+    object-fit: cover;
   }
   &__doubleChevron {
     margin: 0 auto;

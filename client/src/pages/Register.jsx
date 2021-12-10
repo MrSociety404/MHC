@@ -18,7 +18,7 @@ const Register = () => {
   const [passwordConfInput, setPasswordConfInput] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const [state, setState] = useContext(UserContext);
+  const [, setState] = useContext(UserContext);
 
   const navigate = useNavigate();
 
