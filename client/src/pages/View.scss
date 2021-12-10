@@ -1,57 +1,69 @@
 .container{
-    width: 45rem;
-    display: block;
-    margin: auto;
-    margin-top: 3rem;
-    h1{
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    .view_title{
+        margin:2rem 0;
         font-weight: 500;
         font-size: 36px;
     }
-    img{
+    .view_img{
         border-radius: 10px;
     }
     .card{
-        padding-top: 10px;
-        padding-left: 12px;
+        width: 100%;
+        padding: 1rem;
         border-radius: 8px;
         background-color: #FFFF;
-        h2{
+        .card_title{
             font-size: 20px;
             font-weight: 500;
         }
-           .duration{
-            display: flex;
-            justify-content: flex-start;
+        .card_icons{
+            
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           margin: 1rem 0;
+           @media 
+           (max-width: 400px) {
+               flex-direction: column;
+               margin:0;
+           }
+           .card_details{
+               width: 45%;
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               @media (max-width:400px) {
+                   width: 100%;
+                   margin:1rem 0;
+               }
+               &_icons{
+                   margin-right: 0.5rem;
+               }
+           }
         }
-        .level{
-            display: flex;
-            justify-content: center;
-        } 
-        .distance{
-            display: flex;
-            justify-content: flex-start;
-        }
-        .difficulty{
-            display: flex;
-            justify-content: center;
-        }
+      
     }
     .description{ 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0;
         .description_title{
-            display: flex;
-            justify-content: space-between;
             font-size: 20px;
             font-weight: 500;
+            .description_icons{
+                display: flex;
+                justify-content: flex-end;
+            }
+    }
         
     }
-      
-        p{
+   .card_p{
             font-size: 18px;
             text-align: justify;
+            margin-bottom: 2rem;
         } 
-        
-        
-        
-    }
-
 }
