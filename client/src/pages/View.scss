@@ -7,9 +7,51 @@
         font-weight: 500;
         font-size: 36px;
     }
+    img{
+        border-radius: 10px;
+    }
     .card{
+        padding-top: 10px;
+        padding-left: 12px;
         border-radius: 8px;
         background-color: #FFFF;
+        h2{
+            font-size: 20px;
+            font-weight: 500;
+        }
+           .duration{
+            display: flex;
+            justify-content: flex-start;
+        }
+        .level{
+            display: flex;
+            justify-content: center;
+        } 
+        .distance{
+            display: flex;
+            justify-content: flex-start;
+        }
+        .difficulty{
+            display: flex;
+            justify-content: center;
+        }
+    }
+    .description{ 
+        .description_title{
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: 500;
+        
+    }
+      
+        p{
+            font-size: 18px;
+            text-align: justify;
+        } 
+        
+        
+        
     }
 
 }
