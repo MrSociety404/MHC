@@ -1,0 +1,31 @@
+.userDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  &__img {
+    width: 60px ;
+    height: 60px ;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 4px 4px 15px 2px rgba(0, 0, 0, 0.1);
+    border: 4px solid #FFFFFF;
+    display: block;
+  }
+  &__box {
+    display: flex;
+    width: 85%;
+    justify-content: space-between;
+    text-align: left;
+    align-items: center;
+    @media (max-width: 400px) {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 75%;
+    }
+  }
+  &__username {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+}
