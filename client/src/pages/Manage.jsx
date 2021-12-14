@@ -1,13 +1,13 @@
 import "./Manage.scss";
 import { ReactComponent as Chevron } from "../assets/svg/chevron.svg";
 import { ReactComponent as ManageIllu } from "../assets/svg/manage.svg";
-import axios from 'axios'
+import axios from "axios";
 
 import Modal from "../components/Modal/Modal";
 import Input from "../components/Modal/Input";
 import { useEffect, useState } from "react";
 import Button from "../components/Common/Button";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Manage = () => {
   const [hikingName, setHikingName] = useState("");
@@ -17,95 +17,101 @@ const Manage = () => {
   const [image, setImage] = useState("");
   const [level, setLevel] = useState(0);
   const [description, setDescription] = useState("");
-  const [errMsg, setErrMsg] = useState("")
+  const [errMsg, setErrMsg] = useState("");
 
-  const {id} = useParams();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (id) {
-      fetchHiking(id)
-    } 
-  }, [id])
+      fetchHiking(id);
+    }
+  }, [id]);
 
   const onSubmitHandling = () => {
-    if(!hikingName) {
+    if (!hikingName) {
       setErrMsg("Name your hiking track");
     } else if (!description) {
       setErrMsg("Give a description to your hiking track");
     } else {
       setErrMsg("");
-      // Check 
-      if(level < 0 || level > 3) setLevel(0)
+      // Check
+      if (level < 0 || level > 3) setLevel(0);
 
-      const durationArr = duration.split(':');
-      const totalDur = (parseInt(durationArr[0])*60) + parseInt(durationArr[1]);
-      let response = false
+      const durationArr = duration.split(":");
+      const totalDur = parseInt(durationArr[0]) * 60 + parseInt(durationArr[1]);
+      let response = false;
       if (id) {
-        response = edithiking(totalDur, id)
+        response = edithiking(totalDur, id);
       } else {
-        response = addHiking(totalDur)
+        response = addHiking(totalDur);
       }
       if (response) {
-        setHikingName('')
-        setDistance(0)
-        setDuration('')
-        setElevation(0)
-        setImage('')
-        setLevel(0)
-        setDescription('')
+        setHikingName("");
+        setDistance(0);
+        setDuration("");
+        setElevation(0);
+        setImage("");
+        setLevel(0);
+        setDescription("");
+        navigate("/tracks");
       }
     }
-  }
+  };
 
   const addHiking = async (totalDur) => {
-    const response = await axios.post('http://localhost:80/api/hiking', {
+    const response = await axios.post("http://localhost:80/api/hiking", {
       name: hikingName,
       level,
       distance,
       duration: totalDur,
       description,
       elevation_gain: elevation,
-      image
-    })
-    return response.status === 200 
-  }
+      image,
+    });
+    return response.status === 200;
+  };
 
   const edithiking = async (totalDur, id) => {
-    const response = await axios.patch('http://localhost:80/api/hiking/'+id, {
+    const response = await axios.patch("http://localhost:80/api/hiking/" + id, {
       name: hikingName,
       level,
       distance,
       duration: totalDur,
       description,
       elevation_gain: elevation,
-      image
-    })
-    return response.status === 200 
-  }
+      image,
+    });
+    return response.status === 200;
+  };
 
   const fetchHiking = async (id) => {
-    const response = await axios.get('http://localhost:80/api/hiking/'+id)
+    const response = await axios.get("http://localhost:80/api/hiking/" + id);
     if (response.status === 200) {
-      const {data: hiking} = response
-    
-      const hours = Math.floor(hiking.data[0].duration/60);
-      const minutes = hiking.data[0].duration % 60
-      const duration = `${hours < 10 ? '0'+hours : hours}:${minutes < 10 ? '0'+minutes : minutes}`
+      const { data: hiking } = response;
 
-      setHikingName(hiking.data[0].name)
-      setDistance(hiking.data[0].distance)
-      setDuration(duration)
-      setElevation(hiking.data[0].elevation_gain)
-      setImage(hiking.data[0].image)
-      setLevel(hiking.data[0].level)
-      setDescription(hiking.data[0].description)
+      const hours = Math.floor(hiking.data[0].duration / 60);
+      const minutes = hiking.data[0].duration % 60;
+      const duration = `${hours < 10 ? "0" + hours : hours}:${
+        minutes < 10 ? "0" + minutes : minutes
+      }`;
+
+      setHikingName(hiking.data[0].name);
+      setDistance(hiking.data[0].distance);
+      setDuration(duration);
+      setElevation(hiking.data[0].elevation_gain);
+      setImage(hiking.data[0].image);
+      setLevel(hiking.data[0].level);
+      setDescription(hiking.data[0].description);
     }
-  }
+  };
 
   return (
     <main className="manage">
-      <Modal title={id ? "Edit hiking": "New hiking"} onSubmitEvent={onSubmitHandling}>
+      <Modal
+        title={id ? "Edit hiking" : "New hiking"}
+        onSubmitEvent={onSubmitHandling}
+      >
         <p className="connect__headline">
           Did you take a hike that is not on our site? good choice, add it here!
         </p>
@@ -116,7 +122,7 @@ const Manage = () => {
           placeholder="Name your hiking track"
           setValue={setHikingName}
           value={hikingName}
-          error={errMsg === 'Name your hiking track' ? true : false}
+          error={errMsg === "Name your hiking track" ? true : false}
         />
         <div className="input">
           <label htmlFor="level" className="input__label">
@@ -179,7 +185,11 @@ const Manage = () => {
             id="description"
             cols="30"
             rows="10"
-            className={`input__inpt ${errMsg === 'Give a description to your hiking track' ? "error" : ""}`}
+            className={`input__inpt ${
+              errMsg === "Give a description to your hiking track"
+                ? "error"
+                : ""
+            }`}
             placeholder="Your description here"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -190,11 +200,11 @@ const Manage = () => {
         <p className="connect__more">
           Change your mind ?
           <Link to="/" className="connect__action">
-          Cancel here
+            Cancel here
           </Link>
         </p>
       </Modal>
-      <ManageIllu className='manage__illu' />
+      <ManageIllu className="manage__illu" />
     </main>
   );
 };
