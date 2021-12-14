@@ -22,7 +22,7 @@ const View = () => {
 
   useEffect(() => {
     fetchHikingDetails(id);
-  }, []);
+  }, [id]);
 
   const fetchHikingDetails = async (id) => {
     const response = await axios.get(

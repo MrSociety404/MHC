@@ -10,7 +10,7 @@ const Card = ({ hiking }) => {
   const navigate = useNavigate();
 
   const [duration, setDuration] = useState(parseInt(hiking.duration));
-  const [level, setLevel] = useState(parseInt(hiking.level))
+  const [level, setLevel] = useState(parseInt(hiking.level));
 
   const showDetails = () => {
     navigate(`/view/${hiking.id}`);
@@ -22,25 +22,25 @@ const Card = ({ hiking }) => {
     } else {
       const hours = Math.floor(duration / 60);
       let minutes = duration % 60;
-      minutes = minutes < 10 ? `0${minutes}` : minutes
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
       setDuration(`${hours}h${minutes}`);
     }
 
     switch (level) {
       case 1:
-        setLevel('Medium')
+        setLevel("Medium");
         break;
       case 2:
-        setLevel('Hard')
+        setLevel("Hard");
         break;
       case 3:
-        setLevel('Hardcore')
+        setLevel("Hardcore");
         break;
       default:
-        setLevel('Easy')
+        setLevel("Easy");
         break;
     }
-  }, [])
+  }, [duration, level]);
 
   return (
     <article onClick={showDetails} className="card">

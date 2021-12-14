@@ -25,16 +25,15 @@ const CardDetails = ({ hiking }) => {
         break;
     }
 
-if (hiking.duration<= 60) {
-    setDuration(`${hiking.duration}min`)
-}else{
-    const hours = Math.floor(hiking.duration /60)
-    let minutes= hiking.duration%60
-    minutes=minutes<10? `0${minutes}`: minutes
-    setDuration(`${hours}h${minutes}`)
-}
-
-  }, []);
+    if (hiking.duration <= 60) {
+      setDuration(`${hiking.duration}min`);
+    } else {
+      const hours = Math.floor(hiking.duration / 60);
+      let minutes = hiking.duration % 60;
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
+      setDuration(`${hours}h${minutes}`);
+    }
+  }, [hiking.duration, hiking.level]);
 
   return (
     <div className="card">

@@ -9,7 +9,7 @@ const UserDetails = ({ hiking }) => {
 
   useEffect(() => {
     fetchUser(hiking.id_user);
-  }, []);
+  }, [hiking.id_user]);
 
   const fetchUser = async (id) => {
     const response = await axios.get(

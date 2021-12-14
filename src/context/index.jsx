@@ -50,7 +50,7 @@ const UserProvider = ({ children }) => {
         error: null,
       });
     }
-  }, []);
+  }, [token]);
 
   return (
     <UserContext.Provider value={[user, setUser]}>
