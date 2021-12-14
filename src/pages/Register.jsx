@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import {UserContext} from '../context'
+import { UserContext } from "../context";
 import { Link, useNavigate } from "react-router-dom";
 
 // Assets
@@ -32,14 +32,17 @@ const Register = () => {
     } else if (!passwordConfInput) {
       setErrMsg("Confirm your password");
     } else {
-      if(passwordConfInput === passwordInput) {
-        const {data: response} = await axios.post('http://localhost:80/api/user', {
-          email: emailInput,
+      if (passwordConfInput === passwordInput) {
+        const { data: response } = await axios.post(
+          "https://server-mhc.herokuapp.com/api/user",
+          {
+            email: emailInput,
             password: passwordInput,
             image: imageInput,
             passwordInput: passwordInput,
-            nickname: nicknameInput
-        })
+            nickname: nicknameInput,
+          }
+        );
         if (response.message !== "User created !") {
           setErrMsg(response.message);
           setPasswordInput("");
@@ -52,8 +55,8 @@ const Register = () => {
             nickname: response.data[0].nickname,
             image: response.data[0].image,
             admin: response.data[0].admin,
-          }
-          setState({data: user , loading: false, error: null})
+          };
+          setState({ data: user, loading: false, error: null });
           navigate("/");
         }
       } else {

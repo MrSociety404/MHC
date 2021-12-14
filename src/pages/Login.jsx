@@ -25,10 +25,13 @@ const Connect = () => {
     } else if (!passwordInput) {
       setErrMsg("Password is missing");
     } else {
-      const {data: response} = await axios.post("http://localhost:80/api/auth", {
-        email: emailInput,
-        password: passwordInput,
-      });
+      const { data: response } = await axios.post(
+        "https://server-mhc.herokuapp.com/api/auth",
+        {
+          email: emailInput,
+          password: passwordInput,
+        }
+      );
       if (response.message !== "Authentificated User !") {
         setErrMsg(response.message);
         setPasswordInput("");

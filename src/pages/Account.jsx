@@ -20,9 +20,12 @@ const Account = () => {
   const onSubmitHandling = async () => {
     if (passwordInput && passwordConfInput) {
       if (passwordInput === passwordConfInput) {
-        await axios.patch(`http://localhost:80/api/user/${state.data.id}`, {
-          password: passwordConfInput
-        })
+        await axios.patch(
+          `https://server-mhc.herokuapp.com/api/user/${state.data.id}`,
+          {
+            password: passwordConfInput,
+          }
+        );
         setErrMsg("");
       } else {
         setErrMsg("Password must be the same");

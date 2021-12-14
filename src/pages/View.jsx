@@ -19,20 +19,24 @@ const View = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     fetchHikingDetails(id);
   }, []);
-  
+
   const fetchHikingDetails = async (id) => {
-    const response = await axios.get("http://localhost:80/api/hiking/" + id);
+    const response = await axios.get(
+      "https://server-mhc.herokuapp.com/api/hiking/" + id
+    );
     if (response.status === 200) {
       setHiking(response.data.data[0]);
     }
   };
 
   const handleDelete = async () => {
-    const response = await axios.delete("http://localhost:80/api/hiking/" + id);
+    const response = await axios.delete(
+      "https://server-mhc.herokuapp.com/api/hiking/" + id
+    );
     if (response.status === 200) {
       navigate("/tracks");
     }

@@ -16,7 +16,9 @@ const UserProvider = ({ children }) => {
   }
 
   const fetchUser = async () => {
-    const {data: response} = await axios.get('http://localhost:80/api/me')
+    const { data: response } = await axios.get(
+      "https://server-mhc.herokuapp.com/api/me"
+    );
     if (response.data) {
       setUser({
         data: {
@@ -24,7 +26,7 @@ const UserProvider = ({ children }) => {
           email: response.data[0].email,
           nickname: response.data[0].nickname,
           image: response.data[0].image,
-          admin: response.data[0].admin
+          admin: response.data[0].admin,
         },
         loading: false,
         error: null,

@@ -60,33 +60,41 @@ const Manage = () => {
   };
 
   const addHiking = async (totalDur) => {
-    const response = await axios.post("http://localhost:80/api/hiking", {
-      name: hikingName,
-      level,
-      distance,
-      duration: totalDur,
-      description,
-      elevation_gain: elevation,
-      image,
-    });
+    const response = await axios.post(
+      "https://server-mhc.herokuapp.com/api/hiking",
+      {
+        name: hikingName,
+        level,
+        distance,
+        duration: totalDur,
+        description,
+        elevation_gain: elevation,
+        image,
+      }
+    );
     return response.status === 200;
   };
 
   const edithiking = async (totalDur, id) => {
-    const response = await axios.patch("http://localhost:80/api/hiking/" + id, {
-      name: hikingName,
-      level,
-      distance,
-      duration: totalDur,
-      description,
-      elevation_gain: elevation,
-      image,
-    });
+    const response = await axios.patch(
+      "https://server-mhc.herokuapp.com/api/hiking/" + id,
+      {
+        name: hikingName,
+        level,
+        distance,
+        duration: totalDur,
+        description,
+        elevation_gain: elevation,
+        image,
+      }
+    );
     return response.status === 200;
   };
 
   const fetchHiking = async (id) => {
-    const response = await axios.get("http://localhost:80/api/hiking/" + id);
+    const response = await axios.get(
+      "https://server-mhc.herokuapp.com/api/hiking/" + id
+    );
     if (response.status === 200) {
       const { data: hiking } = response;
 
